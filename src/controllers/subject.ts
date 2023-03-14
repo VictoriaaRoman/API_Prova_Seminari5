@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { insertSubject,getSubject,getSubjects,updateSubject,deleteSubject, matriculateSubject} from "../services/subject";
+import { insertSubject,getSubject,getSubjects,updateSubject,deleteSubject, matriculateSubject, getUsersBySubject} from "../services/subject";
 import { handleHttp } from "../utils/error.handle";
 
 const get_Subject = async({params}:Request,res:Response)=>{
@@ -63,12 +63,11 @@ const matriculate_Subject = async ({body}:Request,res:Response)=>{
 
 const get_SubjectCursadoPorUser = async({params}:Request,res:Response)=>{
     try{
-        const {idUser} = params;
-        const response = await get_SubjectCursadoPorUser(idUser);
-        const data = response ? response:"NOT_FOUND";
-        res.send(data);
+        const {idSubject} = params;
+        const response = await getUsersBySubject(idSubject);
+        res.send(response);
     } catch(e){
-        handleHttp(res,"ERROR_GET_SUBJECT");
+        handleHttp(res,"ERROR_OBTAINING_USERSS");
     }
 };
 

@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 import { Subject } from "../interfaces/subject.interface";
 import SubjectModel from "../models/subject";
-import { getUser } from "./user";
 
 const insertSubject=async(item:Subject)=>{
     const responseInsert=await SubjectModel.create(item);
@@ -18,16 +17,13 @@ const getSubject=async(id:string)=>{
     return responseItem;
 };
 
-const getSubjectCursadoPorAlumno=async(id:string)=>{
-    const responseItem=await SubjectModel.find(users._id : id).populate('users');
-    return responseItem;
+const getUsersBySubject=async(idSubject:string)=>{
+    const subject=await SubjectModel.findById(idSubject).populate('users');
+    if(!subject){
+        throw new Error(`Subject with ID ${idSubject} not found`);
+    }
+    return subject.users;
 };
-
-/*
-function searchUserByName(name: string): User | undefined {
-  return users.find((user) => user.name === name);
-}
-*/
 
 const updateSubject=async(id:string,data:Subject)=>{
     const responseItem=await SubjectModel.findOneAndUpdate(
@@ -55,4 +51,4 @@ const matriculateSubject=async(idUser:string,idSubject:string)=>{
     return responseItem;
 };
 
-export { insertSubject, getSubject, getSubjects, updateSubject, deleteSubject, matriculateSubject, getSubjectCursadoPorAlumno };
+export { insertSubject, getSubject, getSubjects, updateSubject, deleteSubject, matriculateSubject, getUsersBySubject };

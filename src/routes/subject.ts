@@ -9,6 +9,6 @@ router.post("/",post_Subject);
 router.put("/:idSubject",update_Subject);
 router.delete("/:idSubject",delete_Subject);
 router.post("/matriculate",matriculate_Subject);
-router.get("/cursados/:idUser", );
+router.get("/cursados/:idSubject", );
 
 export{router};
